@@ -5,9 +5,11 @@
   <title>ColecciónCAP</title>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('camisetaId');
-    const base = 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A54.0.0&channel-name=production&snack=%40coleccioncap%252Fcoleccioncap&snack-channel=p0Y4q6H3Za';
-    window.location.href = base + '&camisetaId=' + id;
+    const camisetaId = params.get('camisetaId');
+    if (camisetaId) {
+      const expUrl = 'exp://u.expo.dev/933fd9c0-1666-11e7-afca-d980795c5824?runtime-version=exposdk%3A54.0.0&channel-name=production&snack=%40coleccioncap%252Fcoleccioncap&snack-channel=p0Y4q6H3Za&camisetaId=' + camisetaId;
+      window.location.href = expUrl;
+    }
   </script>
 </head>
 <body>
