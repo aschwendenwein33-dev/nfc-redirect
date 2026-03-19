@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Peñarol · Colección</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #F5C400;
+  --gold-dim: #c49a00;
+  --gold-glow: rgba(245,196,0,0.18);
+  --black: #0e0e0e;
+  --surface: #161616;
+  --card: #1e1e1e;
+  --border: #2e2e2e;
+  --text: #f0f0f0;
+  --muted: #777;
+  --danger: #e05252;
+  --success: #4ec994;
+  --radius: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── STRIPE BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 38px,
+    rgba(245,196,0,0.022) 38px,
+    rgba(245,196,0,0.022) 40px
+  );
+  pointer-events: none; z-index: 0;
+}
+
+.app { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; padding: 0 16px 80px; }
+
+/* ── HEADER ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  gap: 12px;
+}
+
+.brand { display: flex; align-items: center; gap: 14px; }
+
+.brand-badge {
+  width: 52px; height: 52px;
+  background: var(--gold);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 0 24px rgba(245,196,0,0.35);
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 2px;
+  line-height: 1;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(245,196,0,0.3);
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.header-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 18px;
+  border-radius: 9px; border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all 0.18s;
+  white-space: nowrap;
+}
+.btn-gold { background: var(--gold); color: #0e0e0e; }
+.btn-gold:hover { background: #ffd320; box-shadow: 0 4px 18px rgba(245,196,0,0.3); transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--text); border-color: #444; }
+.btn-danger { background: rgba(224,82,82,0.12); color: var(--danger); border: 1px solid rgba(224,82,82,0.2); }
+.btn-danger:hover { background: rgba(224,82,82,0.2); }
+.btn-sm { padding: 7px 13px; font-size: 12px; border-radius: 7px; }
+.btn-xs { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+
+/* ── STATS ── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  position: relative; overflow: hidden;
+}
+
+.stat::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.stat:hover::after { transform: scaleX(1); }
+
+.stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px; line-height: 1;
+  color: var(--gold);
+}
+.stat-lbl {
+  font-size: 11px; font-family: 'DM Mono', monospace;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 1px; margin-top: 4px;
+}
+.stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── TABS ── */
+.tabs {
+  display: flex; gap: 4px;
+  background: var(--surface);
+  border-radius: 11px; padding: 4px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+}
+.tab {
+  flex: 1; padding: 9px 6px;
+  border-radius: 8px; border: none;
+  background: transparent; color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.tab.active { background: var(--card); color: var(--gold); box-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── SEARCH / FILTER BAR ── */
+.filter-bar {
+  display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.filter-bar input, .filter-bar select {
+  flex: 1; min-width: 140px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+select option { background: var(--surface); }
+textarea { resize: vertical; min-height: 80px; }
+
+/* ── GRID COLECCION ── */
+.jerseys-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.jersey-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+}
+.jersey-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(245,196,0,0.12);
+}
+
+.jersey-photo {
+  width: 100%; height: 200px;
+  object-fit: cover;
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; color: var(--border);
+}
+
+.jersey-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.jersey-photo-placeholder {
+  width: 100%; height: 200px;
+  background: linear-gradient(135deg, var(--surface), #252525);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px;
+}
+
+.jersey-body { padding: 14px 16px; }
+
+.jersey-id {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--muted);
+  letter-spacing: 1px; margin-bottom: 6px;
+}
+
+.jersey-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; line-height: 1.1;
+  color: var(--text); margin-bottom: 8px;
+}
+
+.jersey-meta {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 10px;
+}
+
+.tag {
+  padding: 3px 8px; border-radius: 5px;
+  font-size: 11px; font-family: 'DM Mono', monospace;
+  font-weight: 500;
+}
+.tag-gold { background: rgba(245,196,0,0.12); color: var(--gold); border: 1px solid rgba(245,196,0,0.2); }
+.tag-gray { background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); }
+.tag-green { background: rgba(78,201,148,0.12); color: var(--success); border: 1px solid rgba(78,201,148,0.2); }
+.tag-red { background: rgba(224,82,82,0.12); color: var(--danger); border: 1px solid rgba(224,82,82,0.2); }
+
+.jersey-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 10px; border-top: 1px solid var(--border);
+}
+.jersey-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: var(--gold);
+}
+.jersey-estado { font-size: 12px; }
+
+.nfc-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(14,14,14,0.8);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: var(--gold);
+  backdrop-filter: blur(4px);
+}
+
+/* ── MODAL ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px 16px;
+  overflow-y: auto;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  width: 100%; max-width: 680px;
+  padding: 28px;
+  transform: translateY(20px); transition: transform 0.25s;
+  margin: auto;
+}
+.overlay.open .modal { transform: translateY(0); }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; color: var(--gold); letter-spacing: 1px;
+}
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.modal-close:hover { color: var(--text); border-color: #555; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid .full { grid-column: 1 / -1; }
+@media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } .form-grid .full { grid-column: 1; } }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* ── PHOTO UPLOAD ── */
+.photos-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.photo-slot {
+  aspect-ratio: 1;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px; cursor: pointer;
+  transition: all 0.2s; overflow: hidden;
+  position: relative; background: var(--surface);
+}
+.photo-slot:hover { border-color: var(--gold); background: var(--gold-glow); }
+.photo-slot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.photo-slot .photo-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; z-index: 1; }
+.photo-slot .photo-icon { font-size: 22px; z-index: 1; }
+.photo-slot input[type=file] { display: none; }
+.photo-del {
+  position: absolute; top: 5px; right: 5px; z-index: 2;
+  width: 22px; height: 22px; border-radius: 5px;
+  background: rgba(0,0,0,0.7); border: none;
+  color: #fff; font-size: 12px; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+}
+.photo-slot:hover .photo-del { display: flex; }
+
+/* ── DETAIL VIEW ── */
+.detail-photos {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 22px;
+}
+.detail-photo {
+  aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--border);
+}
+.detail-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.detail-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px;
+}
+@media(max-width:520px){ .detail-grid { grid-template-columns: 1fr 1fr; } }
+
+.detail-field {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: 12px 14px;
+}
+.detail-field .lbl {
+  font-size: 10px; font-family: 'DM Mono', monospace;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
+}
+.detail-field .val {
+  font-size: 15px; font-weight: 700; color: var(--text);
+}
+.detail-field.highlight .val { color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 22px; }
+.detail-field.full { grid-column: 1 / -1; }
+
+.detail-comment {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: 14px;
+  font-size: 13px; line-height: 1.6; color: var(--muted);
+  margin-bottom: 18px;
+}
+
+/* ── NFC PANEL ── */
+.nfc-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+.nfc-panel-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; color: var(--gold);
+  letter-spacing: 1px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.nfc-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 28px 20px; text-align: center;
+  cursor: pointer; transition: all 0.25s;
+  margin-bottom: 16px;
+}
+.nfc-zone:hover, .nfc-zone.scanning {
+  border-color: var(--gold);
+  background: var(--gold-glow);
+}
+.nfc-zone.scanning { animation: nfc-pulse 1.5s ease-in-out infinite; }
+@keyframes nfc-pulse {
+  0%,100% { box-shadow: 0 0 0 rgba(245,196,0,0); }
+  50% { box-shadow: 0 0 20px rgba(245,196,0,0.2); }
+}
+.nfc-icon { font-size: 40px; margin-bottom: 10px; }
+.nfc-lbl { font-size: 14px; font-weight: 600; color: var(--text); }
+.nfc-hint { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); margin-top: 4px; }
+
+.ios-guide {
+  background: rgba(245,196,0,0.06);
+  border: 1px solid rgba(245,196,0,0.15);
+  border-radius: 10px; padding: 16px;
+}
+.ios-guide-title {
+  font-size: 13px; font-weight: 700; color: var(--gold);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.ios-steps { display: flex; flex-direction: column; gap: 8px; }
+.ios-step {
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.ios-step-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--gold); color: #0e0e0e;
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.ios-step-text { font-size: 12px; line-height: 1.5; color: var(--muted); }
+.ios-step-text code {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text);
+}
+
+/* ── STATS DETAIL ── */
+.stats-detail {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+@media(max-width:600px){ .stats-detail { grid-template-columns: 1fr; } }
+
+.stats-block {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+}
+.stats-block-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: var(--gold);
+  letter-spacing: 1px; margin-bottom: 14px;
+}
+.stats-row-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.stats-row-item:last-child { border-bottom: none; }
+.stats-row-lbl { color: var(--muted); }
+.stats-row-val { font-weight: 700; color: var(--text); font-family: 'DM Mono', monospace; }
+.stats-row-val.gold { color: var(--gold); }
+
+.big-stat {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; text-align: center;
+  grid-column: 1 / -1;
+}
+.big-stat-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px; color: var(--gold);
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(245,196,0,0.3);
+}
+.big-stat-lbl { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+
+/* ── EMPTY ── */
+.empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--muted); font-family: 'DM Mono', monospace; font-size: 13px;
+}
+.empty-icon { font-size: 52px; display: block; margin-bottom: 12px; opacity: 0.3; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 24px; right: 20px;
+  padding: 12px 18px; border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  transform: translateY(70px); opacity: 0;
+  transition: all 0.28s; z-index: 9999;
+  min-width: 220px; max-width: 320px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.5);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { background: #0d2820; border: 1px solid var(--success); color: var(--success); }
+#toast.error { background: #2a0e0e; border: 1px solid var(--danger); color: var(--danger); }
+#toast.info { background: #221e0a; border: 1px solid var(--gold); color: var(--gold); }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+@media(max-width:600px){
+  .header { flex-direction: column; align-items: flex-start; }
+  .header-actions { width: 100%; }
+  .brand-name { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-badge">🏆</div>
+      <div>
+        <div class="brand-name">Peñarol</div>
+        <div class="brand-sub">Colección de Camisetas</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="openNFCScan()">📡 Escanear NFC</button>
+      <button class="btn btn-gold" onclick="openForm()">＋ Nueva Camiseta</button>
+    </div>
+  </header>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar" id="statsBar"></div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('coleccion')">👕 Colección</button>
+    <button class="tab" onclick="switchTab('estadisticas')">📊 Estadísticas</button>
+    <button class="tab" onclick="switchTab('nfc')">📡 NFC / iOS</button>
+  </div>
+
+  <!-- TAB COLECCION -->
+  <div class="tab-panel active" id="tab-coleccion">
+    <div class="filter-bar">
+      <input type="text" id="searchQ" placeholder="Buscar por jugador, año, torneo..." oninput="renderGrid()">
+      <select id="filterVersion" onchange="renderGrid()">
+        <option value="">Todas las versiones</option>
+        <option>Titular</option><option>Alternativa</option><option>Tercera</option>
+      </select>
+      <select id="filterEstado" onchange="renderGrid()">
+        <option value="">Todos los estados</option>
+        <option>Excelente</option><option>Muy bueno</option><option>Bueno</option><option>Regular</option>
+      </select>
+    </div>
+    <div class="jerseys-grid" id="jerseyGrid"></div>
+  </div>
+
+  <!-- TAB ESTADISTICAS -->
+  <div class="tab-panel" id="tab-estadisticas">
+    <div id="statsDetail"></div>
+  </div>
+
+  <!-- TAB NFC -->
+  <div class="tab-panel" id="tab-nfc">
+    <div class="nfc-panel">
+      <div class="nfc-panel-title">📡 Lector NFC</div>
+
+      <div class="nfc-zone" id="nfcZone" onclick="toggleNFC()">
+        <div class="nfc-icon">🔖</div>
+        <div class="nfc-lbl" id="nfcLbl">Toca para activar escáner</div>
+        <div class="nfc-hint" id="nfcHint">Funciona con Web NFC en Chrome Android</div>
+      </div>
+
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Simular escaneo</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="simScan('found')">✅ Tag registrado</button>
+          <button class="btn btn-ghost btn-sm" onclick="simScan('unknown')">❓ Tag desconocido</button>
+        </div>
+      </div>
+
+      <div class="ios-guide">
+        <div class="ios-guide-title">🍎 Configurar en iPhone con Atajos de Siri</div>
+        <div class="ios-steps">
+          <div class="ios-step">
+            <div class="ios-step-num">1</div>
+            <div class="ios-step-text">Abrí la app <strong style="color:var(--text)">Atajos</strong> en tu iPhone y tocá <strong style="color:var(--text)">＋</strong> para crear un nuevo atajo.</div>
+          </div>
+          <div class="ios-step">
+            <div class="ios-step-num">2</div>
+            <div class="ios-step-text">Agregá la acción <strong style="color:var(--text)">"Interactuar con tag NFC"</strong> → escaneá el tag de la camiseta y asignale un nombre (ej: <code>CAM-001</code>).</div>
+          </div>
+          <div class="ios-step">
+            <div class="ios-step-num">3</div>
+            <div class="ios-step-text">Agregá la acción <strong style="color:var(--text)">"Abrir URL"</strong> con el valor: <code id="iosUrl">https://tu-sitio.com?uid=CAM-001</code></div>
+          </div>
+          <div class="ios-step">
+            <div class="ios-step-num">4</div>
+            <div class="ios-step-text">Activá la opción <strong style="color:var(--text)">"Ejecutar al escanear"</strong> para que abra automáticamente al acercar el tag.</div>
+          </div>
+          <div class="ios-step">
+            <div class="ios-step-num">5</div>
+            <div class="ios-step-text">Al escanear, esta app detecta el <code>?uid=</code> en la URL y muestra la ficha de la camiseta automáticamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- MODAL FORMULARIO -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="formTitle">Nueva Camiseta</div>
+      <button class="modal-close" onclick="closeForm()">✕</button>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <div class="field full" style="margin-bottom:10px">
+        <label>Fotos (máx. 3)</label>
+      </div>
+      <div class="photos-row">
+        <div class="photo-slot" id="slot0" onclick="triggerPhoto(0)">
+          <span class="photo-icon">📷</span>
+          <span class="photo-label">Foto 1</span>
+          <input type="file" id="fileInput0" accept="image/*" onchange="loadPhoto(0,this)">
+          <button class="photo-del" onclick="delPhoto(event,0)">✕</button>
+        </div>
+        <div class="photo-slot" id="slot1" onclick="triggerPhoto(1)">
+          <span class="photo-icon">📷</span>
+          <span class="photo-label">Foto 2</span>
+          <input type="file" id="fileInput1" accept="image/*" onchange="loadPhoto(1,this)">
+          <button class="photo-del" onclick="delPhoto(event,1)">✕</button>
+        </div>
+        <div class="photo-slot" id="slot2" onclick="triggerPhoto(2)">
+          <span class="photo-icon">📷</span>
+          <span class="photo-label">Foto 3</span>
+          <input type="file" id="fileInput2" accept="image/*" onchange="loadPhoto(2,this)">
+          <button class="photo-del" onclick="delPhoto(event,2)">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>ID / UID NFC</label>
+        <input type="text" id="fId" placeholder="Ej. CAM-001">
+      </div>
+      <div class="field">
+        <label>Año / Temporada</label>
+        <input type="text" id="fAnio" placeholder="Ej. 2023-24">
+      </div>
+      <div class="field">
+        <label>Modelo</label>
+        <input type="text" id="fModelo" placeholder="Ej. Topper · Auténtica">
+      </div>
+      <div class="field">
+        <label>Versión</label>
+        <select id="fVersion">
+          <option>Titular</option>
+          <option>Alternativa</option>
+          <option>Tercera</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Talle</label>
+        <select id="fTalle">
+          <option>XS</option><option>S</option><option>M</option>
+          <option>L</option><option>XL</option><option>XXL</option>
+          <option>Infantil</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Mangas</label>
+        <select id="fMangas">
+          <option>Corta</option>
+          <option>Larga</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Torneo</label>
+        <input type="text" id="fTorneo" placeholder="Ej. Apertura · Libertadores">
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <select id="fEstado">
+          <option>Excelente</option>
+          <option>Muy bueno</option>
+          <option>Bueno</option>
+          <option>Regular</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Jugador (nombre en espalda)</label>
+        <input type="text" id="fJugador" placeholder="Ej. Suárez">
+      </div>
+      <div class="field">
+        <label>Número de dorsal</label>
+        <input type="text" id="fNumero" placeholder="Ej. 9">
+      </div>
+      <div class="field">
+        <label>Valor estimado (USD)</label>
+        <input type="number" id="fValor" placeholder="0" min="0">
+      </div>
+      <div class="field full">
+        <label>Comentarios</label>
+        <textarea id="fComentarios" placeholder="Notas, historia, procedencia..."></textarea>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;">
+      <button class="btn btn-ghost" onclick="closeForm()">Cancelar</button>
+      <button class="btn btn-gold" onclick="saveJersey()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal" id="detailModal" style="max-width:720px">
+    <div class="modal-header">
+      <div class="modal-title" id="detailTitle">—</div>
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div id="detailBody"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
+      <button class="btn btn-ghost btn-sm" onclick="editCurrent()">✏️ Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteCurrent()">🗑️ Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ──────────────────────────────────────────────
+// DATA
+// ──────────────────────────────────────────────
+let db = [];
+let editingId = null;
+let currentDetailId = null;
+let formPhotos = [null, null, null]; // base64
+
+function loadDB() {
+  try { db = JSON.parse(localStorage.getItem('penarol_db') || '[]'); } catch(e) { db = []; }
+}
+function saveDB() {
+  localStorage.setItem('penarol_db', JSON.stringify(db));
+}
+
+// ──────────────────────────────────────────────
+// FORM
+// ──────────────────────────────────────────────
+function openForm(id) {
+  editingId = id || null;
+  formPhotos = [null,null,null];
+  const jersey = id ? db.find(j=>j.id===id) : null;
+
+  document.getElementById('formTitle').textContent = jersey ? 'Editar Camiseta' : 'Nueva Camiseta';
+
+  const fields = ['Id','Anio','Modelo','Version','Talle','Mangas','Torneo','Estado','Jugador','Numero','Valor','Comentarios'];
+  fields.forEach(f => {
+    const el = document.getElementById('f'+f);
+    if (!el) return;
+    el.value = jersey ? (jersey[f.toLowerCase()] ?? '') : '';
+  });
+
+  // photos
+  if (jersey && jersey.photos) {
+    formPhotos = [...jersey.photos, null, null, null].slice(0,3);
+  }
+  renderPhotoSlots();
+
+  document.getElementById('formOverlay').classList.add('open');
+}
+
+function closeForm() {
+  document.getElementById('formOverlay').classList.remove('open');
+  editingId = null;
+}
+
+function triggerPhoto(i) { document.getElementById('fileInput'+i).click(); }
+
+function loadPhoto(i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { formPhotos[i] = e.target.result; renderPhotoSlots(); };
+  reader.readAsDataURL(file);
+}
+
+function delPhoto(e, i) {
+  e.stopPropagation();
+  formPhotos[i] = null;
+  renderPhotoSlots();
+}
+
+function renderPhotoSlots() {
+  for (let i = 0; i < 3; i++) {
+    const slot = document.getElementById('slot'+i);
+    const existing = slot.querySelector('img');
+    if (existing) existing.remove();
+    if (formPhotos[i]) {
+      const img = document.createElement('img');
+      img.src = formPhotos[i];
+      slot.insertBefore(img, slot.firstChild);
+    }
+  }
+}
+
+function getVal(id) { return document.getElementById(id)?.value?.trim() || ''; }
+
+function saveJersey() {
+  const id = getVal('fId') || ('CAM-' + String(Date.now()).slice(-5));
+  if (!editingId && db.find(j=>j.id===id)) {
+    showToast('error', '⚠️ Ya existe una camiseta con ese ID'); return;
+  }
+
+  const jersey = {
+    id,
+    anio: getVal('fAnio'),
+    modelo: getVal('fModelo'),
+    version: getVal('fVersion'),
+    talle: getVal('fTalle'),
+    mangas: getVal('fMangas'),
+    torneo: getVal('fTorneo'),
+    estado: getVal('fEstado'),
+    jugador: getVal('fJugador'),
+    numero: getVal('fNumero'),
+    valor: parseFloat(getVal('fValor')) || 0,
+    comentarios: getVal('fComentarios'),
+    photos: formPhotos.filter(Boolean),
+    created: editingId ? (db.find(j=>j.id===editingId)?.created || new Date().toISOString()) : new Date().toISOString()
+  };
+
+  if (editingId) {
+    const idx = db.findIndex(j=>j.id===editingId);
+    if (idx>=0) db[idx] = jersey;
+  } else {
+    db.unshift(jersey);
+  }
+  saveDB(); renderGrid(); renderStats(); renderStatsDetail();
+  closeForm();
+  showToast('success', `✅ Camiseta "${id}" guardada`);
+}
+
+// ──────────────────────────────────────────────
+// GRID
+// ──────────────────────────────────────────────
+function getVersionTag(v) {
+  if (v === 'Titular') return 'tag-gold';
+  if (v === 'Alternativa') return 'tag-green';
+  return 'tag-gray';
+}
+
+function getEstadoTag(e) {
+  if (e === 'Excelente') return 'tag-green';
+  if (e === 'Regular') return 'tag-red';
+  return 'tag-gray';
+}
+
+function renderGrid() {
+  const q = (document.getElementById('searchQ')?.value || '').toLowerCase();
+  const fv = document.getElementById('filterVersion')?.value || '';
+  const fe = document.getElementById('filterEstado')?.value || '';
+
+  const filtered = db.filter(j => {
+    const text = [j.id,j.anio,j.modelo,j.jugador,j.torneo,j.numero].join(' ').toLowerCase();
+    return (!q || text.includes(q))
+      && (!fv || j.version === fv)
+      && (!fe || j.estado === fe);
+  });
+
+  const grid = document.getElementById('jerseyGrid');
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><span class="empty-icon">👕</span>Sin camisetas. ¡Agregá la primera!</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(j => {
+    const thumb = j.photos && j.photos[0]
+      ? `<div class="jersey-photo"><img src="${j.photos[0]}" alt=""></div>`
+      : `<div class="jersey-photo-placeholder">👕</div>`;
+    const jugadorStr = [j.numero, j.jugador].filter(Boolean).join(' · ');
+    const valorStr = j.valor ? `USD ${j.valor.toLocaleString()}` : '—';
+    return `
+    <div class="jersey-card" onclick="openDetail('${j.id}')">
+      ${j.id ? `<div class="nfc-badge">📡 ${j.id}</div>` : ''}
+      ${thumb}
+      <div class="jersey-body">
+        <div class="jersey-id">${j.anio || '—'} · ${j.modelo || '—'}</div>
+        <div class="jersey-name">${j.torneo || j.version || 'Peñarol'}</div>
+        <div class="jersey-meta">
+          <span class="tag ${getVersionTag(j.version)}">${j.version}</span>
+          <span class="tag tag-gray">${j.talle} · ${j.mangas}</span>
+          ${j.jugador ? `<span class="tag tag-gray">${jugadorStr}</span>` : ''}
+        </div>
+        <div class="jersey-footer">
+          <span class="jersey-value">${valorStr}</span>
+          <span class="jersey-estado tag ${getEstadoTag(j.estado)}">${j.estado}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ──────────────────────────────────────────────
+// DETAIL
+// ──────────────────────────────────────────────
+function openDetail(id) {
+  const j = db.find(x=>x.id===id);
+  if (!j) return;
+  currentDetailId = id;
+  document.getElementById('detailTitle').textContent = `${j.id} · ${j.anio || ''}`;
+
+  const photos = (j.photos || []).concat([null,null,null]).slice(0,3);
+  const photosHtml = photos.map(p => p
+    ? `<div class="detail-photo"><img src="${p}" alt=""></div>`
+    : `<div class="detail-photo">📷</div>`
+  ).join('');
+
+  const fields = [
+    ['Año / Temporada', j.anio || '—'],
+    ['Modelo', j.modelo || '—'],
+    ['Versión', j.version || '—'],
+    ['Talle', j.talle || '—'],
+    ['Mangas', j.mangas || '—'],
+    ['Torneo', j.torneo || '—'],
+    ['Estado', j.estado || '—'],
+    ['Jugador', j.jugador || '—'],
+    ['Número', j.numero || '—'],
+  ];
+
+  const fieldsHtml = fields.map(([lbl,val]) =>
+    `<div class="detail-field"><div class="lbl">${lbl}</div><div class="val">${val}</div></div>`
+  ).join('');
+
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-photos">${photosHtml}</div>
+    <div class="detail-grid">
+      ${fieldsHtml}
+      <div class="detail-field highlight"><div class="lbl">Valor estimado</div><div class="val">USD ${j.valor ? j.valor.toLocaleString() : '—'}</div></div>
+    </div>
+    ${j.comentarios ? `<div class="detail-comment"><strong style="color:var(--muted);font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px">Comentarios</strong>${j.comentarios}</div>` : ''}
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailOverlay').classList.remove('open');
+  currentDetailId = null;
+}
+
+function editCurrent() {
+  closeDetail();
+  setTimeout(() => openForm(currentDetailId || (document.getElementById('detailTitle').textContent.split(' · ')[0])), 50);
+}
+
+function deleteCurrent() {
+  if (!currentDetailId) return;
+  const j = db.find(x=>x.id===currentDetailId);
+  if (!confirm(`¿Eliminar "${currentDetailId}"?`)) return;
+  db = db.filter(x=>x.id!==currentDetailId);
+  saveDB(); renderGrid(); renderStats(); renderStatsDetail();
+  closeDetail();
+  showToast('info', `🗑️ Camiseta eliminada`);
+}
+
+// fix editCurrent scoping
+function editCurrent() {
+  const id = currentDetailId;
+  closeDetail();
+  setTimeout(() => openForm(id), 80);
+}
+
+// ──────────────────────────────────────────────
+// STATS
+// ──────────────────────────────────────────────
+function renderStats() {
+  const total = db.length;
+  const valorTotal = db.reduce((s,j) => s + (j.valor||0), 0);
+  const titular = db.filter(j=>j.version==='Titular').length;
+  const alt = db.filter(j=>j.version==='Alternativa').length;
+
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-val">${total}</div><div class="stat-lbl">Total Camisetas</div></div>
+    <div class="stat"><div class="stat-val">${titular}</div><div class="stat-lbl">Titular</div></div>
+    <div class="stat"><div class="stat-val">${alt}</div><div class="stat-lbl">Alternativa</div></div>
+    <div class="stat"><div class="stat-val">USD ${valorTotal.toLocaleString()}</div><div class="stat-lbl">Valor Colección</div></div>
+  `;
+}
+
+function renderStatsDetail() {
+  const total = db.length;
+  if (total === 0) {
+    document.getElementById('statsDetail').innerHTML = `<div class="empty"><span class="empty-icon">📊</span>Agregá camisetas para ver estadísticas</div>`;
+    return;
+  }
+
+  const valorTotal = db.reduce((s,j)=>s+(j.valor||0),0);
+  const valorProm = total ? Math.round(valorTotal/total) : 0;
+  const valorMax = db.reduce((m,j)=> j.valor>m.valor ? j : m, db[0]);
+
+  // por versión
+  const versions = ['Titular','Alternativa','Tercera'];
+  const versionRows = versions.map(v => {
+    const cnt = db.filter(j=>j.version===v).length;
+    const val = db.filter(j=>j.version===v).reduce((s,j)=>s+(j.valor||0),0);
+    return `<div class="stats-row-item"><span class="stats-row-lbl">${v}</span><span class="stats-row-val">${cnt} · <span class="gold">USD ${val.toLocaleString()}</span></span></div>`;
+  }).join('');
+
+  // por estado
+  const estados = ['Excelente','Muy bueno','Bueno','Regular'];
+  const estadoRows = estados.map(e => {
+    const cnt = db.filter(j=>j.estado===e).length;
+    return cnt ? `<div class="stats-row-item"><span class="stats-row-lbl">${e}</span><span class="stats-row-val">${cnt}</span></div>` : '';
+  }).join('');
+
+  // por talle
+  const talles = ['XS','S','M','L','XL','XXL','Infantil'];
+  const talleRows = talles.map(t => {
+    const cnt = db.filter(j=>j.talle===t).length;
+    return cnt ? `<div class="stats-row-item"><span class="stats-row-lbl">${t}</span><span class="stats-row-val">${cnt}</span></div>` : '';
+  }).join('');
+
+  // por año (top 5)
+  const anioMap = {};
+  db.forEach(j=>{ if(j.anio) anioMap[j.anio] = (anioMap[j.anio]||0)+1; });
+  const anioRows = Object.entries(anioMap).sort((a,b)=>b[1]-a[1]).slice(0,6)
+    .map(([a,c])=>`<div class="stats-row-item"><span class="stats-row-lbl">${a}</span><span class="stats-row-val">${c}</span></div>`).join('');
+
+  document.getElementById('statsDetail').innerHTML = `
+    <div class="stats-detail">
+      <div class="big-stat" style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;">
+        <div style="text-align:center;padding:10px;border-right:1px solid var(--border)">
+          <div class="big-stat-val">${total}</div>
+          <div class="big-stat-lbl">Total camisetas</div>
+        </div>
+        <div style="text-align:center;padding:10px;border-right:1px solid var(--border)">
+          <div class="big-stat-val">$${valorTotal.toLocaleString()}</div>
+          <div class="big-stat-lbl">Valor total (USD)</div>
+        </div>
+        <div style="text-align:center;padding:10px">
+          <div class="big-stat-val">$${valorProm.toLocaleString()}</div>
+          <div class="big-stat-lbl">Valor promedio</div>
+        </div>
+      </div>
+      <div class="stats-block">
+        <div class="stats-block-title">Por Versión</div>${versionRows}
+      </div>
+      <div class="stats-block">
+        <div class="stats-block-title">Por Estado</div>${estadoRows || '<div class="stats-row-item"><span class="stats-row-lbl">—</span></div>'}
+      </div>
+      <div class="stats-block">
+        <div class="stats-block-title">Por Talle</div>${talleRows || '<div class="stats-row-item"><span class="stats-row-lbl">—</span></div>'}
+      </div>
+      <div class="stats-block">
+        <div class="stats-block-title">Por Temporada</div>${anioRows || '<div class="stats-row-item"><span class="stats-row-lbl">—</span></div>'}
+      </div>
+      ${valorMax && valorMax.valor ? `
+      <div class="stats-block" style="grid-column:1/-1">
+        <div class="stats-block-title">⭐ Camiseta más valiosa</div>
+        <div class="stats-row-item" style="cursor:pointer" onclick="openDetail('${valorMax.id}')">
+          <span class="stats-row-lbl">${valorMax.id} · ${valorMax.anio||''} ${valorMax.version||''} ${valorMax.jugador ? '· '+valorMax.jugador : ''}</span>
+          <span class="stats-row-val gold">USD ${valorMax.valor.toLocaleString()}</span>
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// ──────────────────────────────────────────────
+// NFC
+// ──────────────────────────────────────────────
+let scanning = false, nfcReader = null;
+
+function openNFCScan() { switchTab('nfc'); toggleNFC(); }
+
+async function toggleNFC() {
+  if (scanning) { stopNFC(); return; }
+  if ('NDEFReader' in window) {
+    try {
+      nfcReader = new NDEFReader();
+      await nfcReader.scan();
+      scanning = true; setNFCUI(true);
+      nfcReader.onreading = ({serialNumber}) => processNFC(serialNumber.toUpperCase());
+      nfcReader.onreadingerror = () => showToast('error','❌ Error leyendo tag');
+    } catch(e) { showToast('error','❌ '+e.message); }
+  } else {
+    scanning = true; setNFCUI(true);
+    showToast('info','⚠️ Web NFC no soportado. Usá los botones de simulación.');
+  }
+}
+
+function stopNFC() {
+  scanning = false; nfcReader = null; setNFCUI(false);
+}
+
+function setNFCUI(on) {
+  const z = document.getElementById('nfcZone');
+  z.className = 'nfc-zone' + (on ? ' scanning' : '');
+  document.getElementById('nfcLbl').textContent = on ? 'Escaneando...' : 'Toca para activar escáner';
+  document.getElementById('nfcHint').textContent = on ? 'Acercá un tag NFC' : 'Funciona con Web NFC en Chrome Android';
+}
+
+function processNFC(uid) {
+  const j = db.find(x => x.id.toUpperCase() === uid.toUpperCase());
+  if (j) {
+    showToast('success', `✅ Camiseta encontrada: ${j.id}`);
+    openDetail(j.id);
+  } else {
+    showToast('error', `❓ Tag no registrado: ${uid}`);
+    // Pre-fill ID in new form
+    openForm();
+    setTimeout(() => { document.getElementById('fId').value = uid; }, 100);
+  }
+}
+
+function simScan(type) {
+  if (type === 'found' && db.length > 0) {
+    processNFC(db[0].id);
+  } else if (type === 'unknown') {
+    processNFC('CAM-' + Math.floor(Math.random()*9000+1000));
+  } else {
+    showToast('info','Agregá una camiseta primero');
+  }
+}
+
+// ──────────────────────────────────────────────
+// URL PARAM (iOS Shortcut)
+// ──────────────────────────────────────────────
+function checkURLParam() {
+  const params = new URLSearchParams(window.location.search);
+  const uid = params.get('uid');
+  if (uid) {
+    setTimeout(() => processNFC(uid), 400);
+    // clean URL
+    history.replaceState({}, '', window.location.pathname);
+  }
+  // update ios guide url
+  const base = window.location.origin + window.location.pathname;
+  const el = document.getElementById('iosUrl');
+  if (el) el.textContent = base + '?uid=CAM-001';
+}
+
+// ──────────────────────────────────────────────
+// TABS
+// ──────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['coleccion','estadisticas','nfc'];
+    t.classList.toggle('active', names[i]===name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name==='estadisticas') renderStatsDetail();
+}
+
+// ──────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────
+let toastTmr;
+function showToast(type, msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  clearTimeout(toastTmr);
+  toastTmr = setTimeout(() => t.classList.remove('show'), 3400);
+}
+
+// ──────────────────────────────────────────────
+// OVERLAYS CLOSE ON BG
+// ──────────────────────────────────────────────
+document.getElementById('formOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('formOverlay')) closeForm();
+});
+document.getElementById('detailOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('detailOverlay')) closeDetail();
+});
+
+// ──────────────────────────────────────────────
+// SEED DEMO
+// ──────────────────────────────────────────────
+function seedDemo() {
+  db = [
+    { id:'CAM-001', anio:'1987', modelo:'Le Coq Sportif · Auténtica', version:'Titular', talle:'L', mangas:'Corta', torneo:'Copa Libertadores', estado:'Excelente', jugador:'Francescoli', numero:'10', valor:1200, comentarios:'Camiseta histórica del campeón de América. En perfecto estado, sin uso.', photos:[], created: new Date().toISOString() },
+    { id:'CAM-002', anio:'2023-24', modelo:'Topper · Match', version:'Titular', talle:'M', mangas:'Corta', torneo:'Apertura 2023', estado:'Muy bueno', jugador:'', numero:'', valor:85, comentarios:'', photos:[], created: new Date().toISOString() },
+    { id:'CAM-003', anio:'2022', modelo:'Topper · Réplica', version:'Alternativa', talle:'XL', mangas:'Larga', torneo:'Clausura 2022', estado:'Bueno', jugador:'Rodríguez', numero:'7', valor:60, comentarios:'Camiseta alternativa blanca con detalles negros.', photos:[], created: new Date().toISOString() },
+  ];
+  saveDB();
+}
+
+// ──────────────────────────────────────────────
+// INIT
+// ──────────────────────────────────────────────
+loadDB();
+if (db.length === 0) seedDemo();
+renderStats();
+renderGrid();
+checkURLParam();
+</script>
+</body>
+</html>
